@@ -15,7 +15,16 @@ class MembersController extends AppController
 
     public function index()
     {
+        $this->layout = 'empty.ctp';
+    }
 
+    public function loginMember()
+    {
+        $session = $this->request->getSession();
+        if(!$session->check('Auth.user'))
+        {
+            //return $this->redirect('facebook.com');
+        }
     }
     /*
     public function addStudent()

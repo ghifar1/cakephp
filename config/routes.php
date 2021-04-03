@@ -54,7 +54,7 @@ $routes->scope('/', function (RouteBuilder $builder) {
     /*
      * ...and connect the rest of 'Pages' controller's URLs.
      */
-    $builder->connect('/pages/*', 'Pages::display');
+    //$builder->connect('/pages/*', 'Pages::display');
 
     /*
      * Connect catchall routes for all controllers.
@@ -73,6 +73,7 @@ $routes->scope('/', function (RouteBuilder $builder) {
 });
 
 $routes->connect('/struktur', ['controller' => 'Members', 'action' => 'index']);
+$routes->connect('/login', ['controller' => 'Members', 'action' => 'loginMember']);
 
 /*
  * If you need a different set of middleware or none at all,

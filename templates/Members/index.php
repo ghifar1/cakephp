@@ -1,3 +1,7 @@
+<?php 
+$this->disableAutoLayout();
+$session = $this->request->getSession();
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -11,56 +15,78 @@
     <title>Hello, world!</title>
   </head>
   <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Struktur</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <?php if($session->check('Auth.user')) {?>
+      <li class="nav-item">
+        <a class="nav-link" href="<?= $this->Url->build('/edit', ['fullBase' => true])?>">Edit</a>
+      </li>
+      <? } else { ?>
+        <li class="nav-item">
+        <a class="nav-link" href="<?= $this->Url->build('/login', ['fullBase' => true])?>">Login</a>
+      </li>
+      <? } ?>
+    </ul>
+  </div>
+</nav>
     <div class="container">
       <div class="text-center">
       <?php echo $this->Html->image('logohimti.png', array('alt' => 'logohimti', 'width' => '100px')); ?>
       <h1>Struktur HIMTI 2022</h1>
       </div>
-      <div class="bagan rounded p-3" style="background-color: #d6d6d6;">
+      <div class="bagan rounded p-3 mt-4" style="background-color: #d6d6d6;">
         <div class="d-flex justify-content-center m-2">
           <div class="text-center border border-primary rounded" style="width: 200px;">
-            <h2><b>Ketua</b></h2>
+            <h3><b>Ketua</b></h3>
             <hr>
-            <h3>Ahmad Muaz</h2>
+            <h5>Ahmad Muaz</h5>
           </div>
         </div>
         <div class="d-flex justify-content-center m-2">
           <div class="text-center border border-primary rounded" style="width: 200px;">
-            <h2><b>Wakil</b></h2>
+            <h3><b>Wakil</b></h3>
             <hr>
-            <h3>Nakia Natassa</h2>
+            <h5>Nakia Natassa</h5>
           </div>
         </div>
         <div class="d-flex flex-wrap justify-content-around m-2">
           <div class="text-center border border-primary rounded m-1" style="width: 200px;">
-            <h2><b>Divisi Kreatif</b></h2>
+            <h3><b>Divisi Kreatif</b></h4>
             <hr>
-            <h3>orang</h2>
-            <h3>orang</h2>
+            <h5>orang</h5>
+            <h5>orang</h5>
           </div>
           <div class="text-center border border-primary rounded m-1" style="width: 200px;">
-            <h2><b>Divisi Litbang</b></h2>
+            <h3><b>Divisi Litbang</b></h4>
             <hr>
-            <h3>orang</h2>
-            <h3>orang</h2>
+            <h5>orang</h5>
+            <h5>orang</h5>
           </div>
           <div class="text-center border border-primary rounded m-1" style="width: 200px;">
-            <h2><b>Divisi HR</b></h2>
+            <h3><b>Divisi HR</b></h4>
             <hr>
-            <h3>orang</h2>
-            <h3>orang</h2>
+            <h5>orang</h5>
+            <h5>orang</h5>
           </div>
           <div class="text-center border border-primary rounded m-1" style="width: 200px;">
-            <h2><b>Divisi Humas</b></h2>
+            <h3><b>Divisi Humas</b></h4>
             <hr>
-            <h3>orang</h2>
-            <h3>orang</h2>
+            <h5>orang</h5>
+            <h5>orang</h5>
           </div>
           <div class="text-center border border-primary rounded m-1" style="width: 200px;">
-            <h2><b>Divisi TI</b></h2>
+            <h3><b>Divisi TI</b></h4>
             <hr>
-            <h3>orang</h2>
-            <h3>orang</h2>
+            <h5>orang</h5>
+            <h5>orang</h5>
           </div>
         </div>
         
