@@ -74,6 +74,9 @@ $routes->scope('/', function (RouteBuilder $builder) {
 
 $routes->connect('/struktur', ['controller' => 'Members', 'action' => 'index']);
 $routes->connect('/login', ['controller' => 'Members', 'action' => 'loginMember']);
+$routes->connect('/listmember', ['controller' => 'Members', 'action' => 'listMember']);
+$routes->connect('/addmember', ['controller' => 'Members', 'action' => 'addMember']);
+$routes->connect('/deletemember/:id', ['controller' => 'Members', 'action' => 'deleteMember'], ['pass' => ['id']]);
 
 /*
  * If you need a different set of middleware or none at all,
@@ -82,10 +85,10 @@ $routes->connect('/login', ['controller' => 'Members', 'action' => 'loginMember'
  * ```
  * $routes->scope('/api', function (RouteBuilder $builder) {
  *     // No $builder->applyMiddleware() here.
- *     
+ *
  *     // Parse specified extensions from URLs
  *     // $builder->setExtensions(['json', 'xml']);
- *     
+ *
  *     // Connect API actions here.
  * });
  * ```

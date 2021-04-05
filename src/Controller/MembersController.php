@@ -3,19 +3,23 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Validation\Validator;
 
 class MembersController extends AppController
 {
     public function initialize(): void
     {
         parent::initialize();
-       
-        $this->loadModel("Members");
+        $this->loadComponent('Flash');
+        $this->loadModel('Members');
+
     }
 
     public function index()
     {
-        $this->layout = 'empty.ctp';
+        $members = $this->Members->find()->toArray();
+        $this->set('members', $members);
+
     }
 
     public function loginMember()
@@ -26,58 +30,62 @@ class MembersController extends AppController
             //return $this->redirect('facebook.com');
         }
     }
-    /*
-    public function addStudent()
+
+    public function listMember()
     {
-        $student = $this->Students->newEmptyEntity();
+        $members = $this->Members->find()->toArray();
+        $this->set('members', $members);
+    }
+
+    public function addMember()
+    {
+        $member = $this->Members->newEmptyEntity();
+        $this->set('error', false);
         if ($this->request->is('post')) {
-            $student = $this->Students->patchEntity($student, $this->request->getData());
-            if ($this->Students->save($student)) {
-                $this->Flash->success(__('The student has been created.'));
-                return $this->redirect(['action' => 'listStudents']);
+            $data = $this->request->getData();
+            $count = $this->Members->find('all')->where(['Members.role IS' => $data['role']])->count();
+            $success = true;
+            $member->name = $data['name'];
+            $member->role = $data['role'];
+            if($data['role'] == 'ketua' || $data['role'] == 'wakil')
+            {
+                $member->position = $data['role'];
+                if($count > 0)
+                {
+                    $success = false;
+                    $this->set('error', 'Gagal disimpan, jabatan <b>'.$data['role'].'</b> sudah digunakan');
+                }
+            } else {
+                $member->position = $data['position'];
+                if($data['position'] == 'koordinator')
+                {
+                    $coor = $this->Members->find('all')->where(['Members.role IS' => $data['role']])
+                        ->where(['Members.position IS' => 'koordinator'])->count();
+                    if ($coor > 0)
+                    {
+                        $success = false;
+                        $this->set('error', 'Gagal disimpan, koordinator <b>'.$data['role'].'</b> sudah digunakan');
+                    }
+                }
+
             }
-            $this->Flash->error(__('Failed to create student. Please, try again.'));
-        }
-        $this->set("title", "Add Stduent");
-        $this->set(compact("student"));
-    }
 
-    public function listStudents()
-    {
-        $students = $this->Students->find()->toList();
-        $this->set("title", "List Student");
-        $this->set(compact("students"));
-    }
-
-    public function editStudent($id = null)
-    {
-        $student = $this->Students->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $student = $this->Students->patchEntity($student, $this->request->getData());
-            if ($this->Students->save($student)) {
-                $this->Flash->success(__('The student data has been updated successfully.'));
-
-                return $this->redirect(['action' => 'listStudents']);
+            if ($success) {
+                $this->Members->save($member);
+                $this->Flash->success(__('berhasil dibuat'));
+                return $this->redirect(['action' => 'listMember']);
             }
-            $this->Flash->error(__('The student could not be updated. Please, try again.'));
+
         }
-        $this->set(compact('student'));
-        $this->set("title", "Edit Student");
+        $this->set('member', $member);
     }
 
-    public function deleteStudent($id = null)
+    public function deleteMember($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $student = $this->Students->get($id);
-        if ($this->Students->delete($student)) {
-            $this->Flash->success(__('The student has been deleted.'));
-        } else {
-            $this->Flash->error(__('The student could not be deleted. Please, try again.'));
-        }
+        $member = $this->Members->get($id);
+        $this->Members->delete($member);
+        return $this->redirect(['action' => 'listMember']);
 
-        return $this->redirect(['action' => 'listStudents']);
     }
-    */
 }

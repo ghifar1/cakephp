@@ -2,7 +2,6 @@
 
 $this->disableAutoLayout();
 $session = $this->request->getSession();
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -15,6 +14,7 @@ $session = $this->request->getSession();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
     <title>Hello, world!</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -39,23 +39,67 @@ $session = $this->request->getSession();
         </ul>
     </div>
 </nav>
-<div class="d-flex flex-row justify-content-center align-items-center" style="height: 100vh;">
-    <div class="p-5 rounded" style="background-color: #51d88a">
-        <h4 class="text-center">Login</h4>
-        <form>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <div class="card mt-5" style="width: 400px">
+            <div class="card-body">
+                <?php if($error) { ?>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                         <?= $error ?>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                <?php } ?>
+                <?= $this->Form->create($member) ?>
+                <div class="form-group">
+                    <label>Nama</label>
+                    <input type="text" class="form-control" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="jabatan">Jabatan</label>
+                    <select class="form-control" id="jabatan" name="role">
+                        <option selected></option>
+                        <option value="ketua">Ketua</option>
+                        <option value="wakil">Wakil</option>
+                        <option value="divhr">Divisi HR</option>
+                        <option value="divhumas">Divisi humas</option>
+                        <option value="divkreatif">Divisi kreatif</option>
+                        <option value="divti">Divisi TI</option>
+                        <option value="divlitbang">Divisi litbang</option>
+                    </select>
+                </div>
+                <div class="form-group" id="posisi">
+
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <?= $this->Form->end() ?>
             </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        </div>
     </div>
+
 </div>
 <!-- Optional JavaScript; choose one of the two! -->
+<script>
+    $(function ()
+    {
+        $('#jabatan').on('change', function (){
+            $('#posisi').empty()
+            var value = $(this).val()
+            if(value !== "ketua" && value !== "wakil")
+            {
+                $('#posisi').html(`<label for="exampleFormControlSelect1">Posisi</label>
+                    <select class="form-control" id="exampleFormControlSelect1" name="position">
+                        <option selected></option>
+                        <option value="koordinator">Koordinator</option>
+                        <option value="anggota">Anggota</option>
+                    </select>`)
+            } else {
+
+            }
+        })
+    });
+</script>
 
 <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

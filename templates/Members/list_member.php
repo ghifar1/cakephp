@@ -2,7 +2,6 @@
 
 $this->disableAutoLayout();
 $session = $this->request->getSession();
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -39,20 +38,44 @@ $session = $this->request->getSession();
         </ul>
     </div>
 </nav>
-<div class="d-flex flex-row justify-content-center align-items-center" style="height: 100vh;">
-    <div class="p-5 rounded" style="background-color: #51d88a">
-        <h4 class="text-center">Login</h4>
-        <form>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+<div class="container">
+    <div class="card mt-5">
+        <div class="card-body">
+            <h3>Daftar anggota HIMTI</h3> <a href="<?= $this->Url->build('/addmember', ['fullBase' => true]) ?>" class="btn btn-primary">Tambah</a>
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Jabatan</th>
+                    <th scope="col">Posisi</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php if(count($members) > 0) {
+                    foreach ($members as $index => $data) {
+                ?>
+                <tr>
+                    <th scope="row"><?= $index+1 ?></th>
+                    <td><?= $data->name ?></td>
+                    <td><?= $data->role ?></td>
+                    <td><?= $data->position ?></td>
+                    <td>
+                        <form action="<?= $this->Url->build('/deletemember/'.$data->id, ['fullBase' => false]) ?>" method="post">
+                            <input type="hidden" name="id" value="<?= $data->id ?>">
+                            <input type="hidden" name="_csrfToken" value="<?= $_COOKIE["csrfToken"] ?>">
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                        </form>
+                    </td>
+                </tr>
+                <?php
+                }
+                }
+                ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 <!-- Optional JavaScript; choose one of the two! -->
